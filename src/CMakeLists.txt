@@ -108,3 +108,28 @@ if(BUILD_EDITOR)
   endif()
   target_link_libraries(cdogs-sdl-editor cdogsedlib cdogs cdogs_proto ${OPENGL_LIBRARIES} ${EXTRA_LIBRARIES})
 endif()
+
+if(VITA)
+  include("${VITASDK}/share/vita.cmake" OPTIONAL)
+
+  set(VITA_APP_NAME  "C-Dogs SDL")
+  set(VITA_TITLEID   "CDGS00001")
+  set(VITA_VERSION   "01.00")
+
+  vita_create_self(cdogs-sdl.self cdogs-sdl)
+  vita_create_vpk(cdogs-sdl.vpk ${VITA_TITLEID} cdogs-sdl.self
+    VERSION ${VITA_VERSION}
+    NAME    ${VITA_APP_NAME}
+    FILE    ${CMAKE_SOURCE_DIR}/data data
+    FILE    ${CMAKE_SOURCE_DIR}/dogfights dogfights
+    FILE    ${CMAKE_SOURCE_DIR}/missions  missions
+    FILE    ${CMAKE_SOURCE_DIR}/graphics  graphics
+    FILE    ${CMAKE_SOURCE_DIR}/sounds    sounds
+    FILE    ${CMAKE_SOURCE_DIR}/music     music
+    FILE    ${CMAKE_SOURCE_DIR}/sce_sys/icon0.png sce_sys/icon0.png
+    FILE    ${CMAKE_SOURCE_DIR}/sce_sys/pic0.png sce_sys/pic0.png
+    FILE    ${CMAKE_SOURCE_DIR}/sce_sys/livearea/contents/bg0.png sce_sys/livearea/contents/bg0.png
+    FILE    ${CMAKE_SOURCE_DIR}/sce_sys/livearea/contents/startup.png sce_sys/livearea/contents/startup.png
+    FILE    ${CMAKE_SOURCE_DIR}/sce_sys/livearea/contents/template.xml sce_sys/livearea/contents/template.xml
+  )
+endif()
