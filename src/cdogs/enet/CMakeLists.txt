@@ -59,6 +59,12 @@ endif()
  
 include_directories(${PROJECT_SOURCE_DIR}/include)
  
+if(VITA)
+    set(ENET_PLATFORM_SOURCE vita_stub.c)
+else()
+    set(ENET_PLATFORM_SOURCE unix.c)
+endif()
+
 add_library(enet STATIC
         callbacks.c
         compress.c
@@ -67,6 +73,6 @@ add_library(enet STATIC
         packet.c
         peer.c
         protocol.c
-        unix.c
+        ${ENET_PLATFORM_SOURCE}
         win32.c
     )

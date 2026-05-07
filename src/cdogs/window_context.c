@@ -46,7 +46,13 @@ bool WindowContextCreate(
 		return false;
 	}
 	wc->renderer = SDL_CreateRenderer(
-		wc->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+		wc->window, -1,
+#ifdef __vita__
+		SDL_RENDERER_PRESENTVSYNC
+#else
+		SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE
+#endif
+	);
 	if (wc->renderer == NULL)
 	{
 		LOG(LM_GFX, LL_ERROR, "cannot create renderer: %s", SDL_GetError());
@@ -123,6 +129,7 @@ SDL_Texture *WindowContextCreateTexture(
 
 void WindowContextPreRender(WindowContext *wc)
 {
+	if (wc->renderer == NULL) return;
 	if (SDL_SetRenderDrawColor(wc->renderer, 0, 0, 0, 255) != 0)
 	{
 		LOG(LM_GFX, LL_ERROR, "Failed to set draw color: %s", SDL_GetError());
@@ -141,6 +148,7 @@ void WindowContextPreRender(WindowContext *wc)
 
 void WindowContextPostRender(WindowContext *wc)
 {
+	if (wc->renderer == NULL) return;
 	CA_FOREACH(SDL_Texture *, t, wc->textures)
 	TextureRender(
 		*t, wc->renderer, Rect2iZero(), Rect2iZero(), colorWhite, 0,

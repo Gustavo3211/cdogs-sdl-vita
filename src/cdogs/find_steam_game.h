@@ -186,6 +186,9 @@ extern "C"
 			fclose(f);
 			out[0] = '\0';
 		}
+#elif defined(__vita__)
+	// No Steam on Vita
+	(void)name;
 #else
 	// Look at $HOME/.local/share/Steam/steamapps/common/
 	struct passwd *pw = getpwuid(getuid());

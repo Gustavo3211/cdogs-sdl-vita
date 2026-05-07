@@ -59,6 +59,10 @@
 	#include <conio.h>    // for getch() and kbhit()
 	#define getch _getch
 	#define kbhit _kbhit
+#elif defined(__vita__)
+	// No termios on Vita
+	RLUTIL_INLINE int getch(void) { return getchar(); }
+	RLUTIL_INLINE int kbhit(void) { return 0; }
 #else
 	#include <termios.h> // for getch() and kbhit()
 	#include <unistd.h> // for getch(), kbhit() and (u)sleep()

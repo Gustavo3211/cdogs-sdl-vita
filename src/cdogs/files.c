@@ -569,6 +569,9 @@ const char *GetHomeDirectory(void)
 #ifdef __EMSCRIPTEN__
 	return "/persistent_data/";
 #endif
+#ifdef __vita__
+	return "";
+#endif
 
 	const char *p;
 

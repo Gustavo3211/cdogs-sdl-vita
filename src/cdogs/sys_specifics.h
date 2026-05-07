@@ -38,6 +38,8 @@
 
 #ifdef _WIN32
 #define HOME_DIR_ENV "AppData"
+#elif defined(__vita__)
+#define HOME_DIR_ENV "HOME" // Doesn't matter, we'll return ""
 #else
 #define HOME_DIR_ENV "HOME"
 #endif

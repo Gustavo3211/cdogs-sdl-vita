@@ -118,11 +118,17 @@ void GraphicsInitialize(GraphicsDevice *g)
 			svec2i(
 				ConfigGetInt(&gConfig, "Graphics.WindowWidth"),
 				ConfigGetInt(&gConfig, "Graphics.WindowHeight")));
+#ifdef __vita__
+		windowDim.Size = svec2i(960, 544);
+		windowDim.Pos = svec2i_zero();
+		windowFlags |= SDL_WINDOW_FULLSCREEN;
+#else
 		if (g->cachedConfig.Fullscreen)
 		{
 			windowFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 			windowDim.Pos = svec2i_zero();
 		}
+#endif
 		LOG(LM_GFX, LL_DEBUG, "destroying previous renderer");
 		WindowContextDestroy(&g->gameWindow);
 		WindowContextDestroy(&g->secondWindow);

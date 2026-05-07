@@ -243,12 +243,48 @@ add_subdirectory(yajl)
 add_library(cdogs STATIC
 	${CDOGS_SOURCES} ${CDOGS_HEADERS})
 
-target_link_libraries(cdogs
-	c_hashmap
-	cwolfmap
-	json
-	SDL_joystickbuttonnames
-	yajl_s
-	SDL2::SDL2
-	SDL2_mixer::SDL2_mixer
-	${ENet_LIBRARIES})
+if(VITA)
+	target_link_libraries(cdogs
+		c_hashmap
+		cwolfmap
+		json
+		SDL_joystickbuttonnames
+		yajl_s
+		SDL2_mixer
+		SDL2
+		mikmod
+		modplug
+		mpg123
+		opusfile
+		opus
+		FLAC
+		vorbisfile
+		vorbis
+		ogg
+		xmp
+		m
+		SceDisplay_stub
+		SceCtrl_stub
+		SceAudio_stub
+		SceSysmodule_stub
+		SceGxm_stub
+		SceCommonDialog_stub
+		SceAppMgr_stub
+		SceTouch_stub
+		SceHid_stub
+		SceNet_stub
+		SceNetCtl_stub
+		stdc++
+		${ENet_LIBRARIES}
+	)
+else()
+	target_link_libraries(cdogs
+		c_hashmap
+		cwolfmap
+		json
+		SDL_joystickbuttonnames
+		yajl_s
+		SDL2::SDL2
+		SDL2_mixer::SDL2_mixer
+		${ENet_LIBRARIES})
+endif()

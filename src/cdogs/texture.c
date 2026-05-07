@@ -62,6 +62,7 @@ void TextureRender(
 	SDL_Texture *t, SDL_Renderer *r, const Rect2i src, const Rect2i dest,
 	const color_t mask, const double angle, const SDL_RendererFlip flip)
 {
+	if (t == NULL || r == NULL) return;
 	if (SDL_SetTextureColorMod(t, mask.r, mask.g, mask.b) != 0)
 	{
 		LOG(LM_MAIN, LL_ERROR, "Failed to set texture mask: %s",

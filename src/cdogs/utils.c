@@ -149,7 +149,7 @@ static bool IsAbsolutePath(const char *path);
 void RealPath(const char *src, char *dest)
 {
 	char *res;
-#ifndef _WIN32
+#if !defined(_WIN32) && !defined(__vita__)
 	// realpath will fail if the file does not exist; if this is the
 	// case then resolve the path ourselves
 	tinydir_file file;
@@ -228,7 +228,12 @@ void RealPath(const char *src, char *dest)
 	}
 	else
 #endif
+#ifdef __vita__
+		strcpy(dest, src);
+		res = dest;
+#else
 		res = realpath(src, dest);
+#endif
 	if (!res)
 	{
 		fprintf(
@@ -419,6 +424,8 @@ static bool IsAbsolutePath(const char *path)
 {
 #ifdef _WIN32
 	return strlen(path) > 1 && path[1] == ':';
+#elif defined(__vita__)
+	return strchr(path, ':') != NULL;
 #else
 	return path[0] == '/';
 #endif
